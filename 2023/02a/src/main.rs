@@ -15,16 +15,26 @@ const BLUE: u32 = 14;
 
 
 fn main() {
-    if let Ok(lines) = read_lines("./data.txt") {
-        let mut sum: u32 = 0;
+    // assert that the test data is correct
+    assert_eq!(process_data("./test_data.txt"), 8);
+    println!("{}", process_data("./data.txt"));
+}
+
+fn process_data(file_name: &str) -> u32 {
+    let mut sum: u32 = 0;
+    if let Ok(lines) = read_lines(file_name) {
         for str in lines.flatten() {
+            // split the string into the game number and the pulls
+            // string example: `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green`
             let s = str.split(":").collect::<Vec<&str>>();
             let game_num = s[0].split(" ").collect::<Vec<&str>>()[1].parse::<u32>().expect("Not a valid number");
+            // split the game into individual pulls: `3 blue, 4 red` and `1 red, 2 green, 6 blue` and `2 green`
             let game = s[1].split(";").collect::<Vec<&str>>();
             sum += game_num;  // Assume game is possible
             'game_loop: for pull in &game {
-                let pull = pull.split(",").map(str::trim).collect::<Vec<&str>>();
-                for color in pull {
+                // split each game into individual colors: `3 blue` and `4 red`
+                let colors = pull.split(",").map(str::trim).collect::<Vec<&str>>();
+                for color in colors {
                     let color = color.split(" ").collect::<Vec<&str>>();
                     let balls = color[0].parse::<u32>().expect("Not a valid number");
                     let color = color[1].to_string();
@@ -37,8 +47,8 @@ fn main() {
                 }
             }
         }
-        println!("{}", sum);
     }
+    return sum;
 }
 
 
