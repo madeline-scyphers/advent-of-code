@@ -1,4 +1,4 @@
-/// Problem 2.1
+/// Problem 2b
 /// This problem is about parsing strings and finding numbers in them
 /// We are given a list of games, each game has a number and a list of pulls
 /// Each pull has a number of balls of a certain color
